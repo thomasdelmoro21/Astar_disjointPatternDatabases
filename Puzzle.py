@@ -60,7 +60,7 @@ class Puzzle:
         frontier = PriorityQueue()
         frontier.put((self.evaluationFunction(node, h), node))
         reached = dict()
-        reached[self.stateRepr(self.start)] = node
+        reached[tuple([tuple(e) for e in self.start])] = node
 
         while frontier.qsize() > 0:
             f, node = frontier.get()
@@ -69,7 +69,7 @@ class Puzzle:
             print(len(reached))
             neighbors = self.expand(node)
             for child in neighbors:
-                s = self.stateRepr(child.state)
+                s = tuple([tuple(e) for e in child.state])
                 if s not in reached.keys() or child.pathCost < reached[s].pathCost:
                     reached[s] = child
                     frontier.put((self.evaluationFunction(child, h), child))
