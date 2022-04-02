@@ -3,6 +3,7 @@
 '''
 
 from queue import PriorityQueue
+from copy import deepcopy
 import math
 import numpy as np
 from Heuristics import heuristic
@@ -19,27 +20,28 @@ class Node:
 
 def expand(node):
     neighbors = []
-    i = np.where(node.state == 0)[0][0]
-    j = np.where(node.state == 0)[1][0]
+    arrayState = np.array(deepcopy(node.state))
+    i = np.where(arrayState == 0)[0][0]
+    j = np.where(arrayState == 0)[1][0]
 
     if i != 0:
-        newState = node.state.copy()
-        newState[i - 1, j], newState[i, j] = newState[i, j], newState[i - 1, j]
+        newState = deepcopy(node.state)
+        newState[i - 1][j], newState[i][j] = newState[i][j], newState[i - 1][j]
         neighbors.append(Node(newState, node.pathCost + 1))
 
     if i != 3:
-        newState = node.state.copy()
-        newState[i, j], newState[i + 1, j] = newState[i + 1, j], newState[i, j]
+        newState = deepcopy(node.state)
+        newState[i][j], newState[i + 1][j] = newState[i + 1][j], newState[i][j]
         neighbors.append(Node(newState, node.pathCost + 1))
 
     if j != 0:
-        newState = node.state.copy()
-        newState[i, j - 1], newState[i, j] = newState[i, j], newState[i, j - 1]
+        newState = deepcopy(node.state)
+        newState[i][j - 1], newState[i][j] = newState[i][j], newState[i][j - 1]
         neighbors.append(Node(newState, node.pathCost + 1))
 
     if j != 3:
-        newState = node.state.copy()
-        newState[i, j], newState[i, j + 1] = newState[i, j + 1], newState[i, j]
+        newState = deepcopy(node.state)
+        newState[i][j], newState[i][j + 1] = newState[i][j + 1], newState[i][j]
         neighbors.append(Node(newState, node.pathCost + 1))
     return neighbors
 
@@ -63,7 +65,7 @@ class Puzzle:
 
         while frontier.qsize() > 0:
             f, node = frontier.get()
-            if np.array_equiv(node.state, self.goal):
+            if node.state == self.goal:
                 return node
             print(len(reached))
             neighbors = expand(node)
@@ -72,4 +74,5 @@ class Puzzle:
                 if s not in reached.keys() or child.pathCost < reached[s].pathCost:
                     reached[s] = child
                     frontier.put((self.evaluationFunction(child, h), child))
+        print(node.state)
         return False
