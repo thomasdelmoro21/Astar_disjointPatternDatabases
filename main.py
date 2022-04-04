@@ -11,9 +11,10 @@ from queue import PriorityQueue
 N = 1
 
 def main():
-    start = [[1,2,3,7],[4,9,6,5],[12,8,11,15],[13,14,10,0]]
-    goal = [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
+    start = [1,2,3,7, 4,5,6,10, 0,8,11,15, 12,9,13,14]
+    goal = [0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15]
 
+    print(start)
     puzzle = Puzzle.Puzzle(start, goal)
     pr = cProfile.Profile()
     pr.enable()

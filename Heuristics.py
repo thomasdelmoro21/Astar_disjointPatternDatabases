@@ -20,12 +20,11 @@ def heuristic(node, h):
 
 def manhattanDistance(node):
     d = 0
-    for i in range(4):
-        for j in range(4):
-            if node[i][j] != 0:
-                x = node[i][j] % 4
-                y = math.floor(node[i][j] / 4)
-                d = d + abs(i - y) + abs(j - x)
+    for i in range(len(node)):
+        if node[i] != 0:
+            dx = ((node[i] % 4) - (i % 4))
+            dy = ((math.floor(node[i] / 4)) - (math.floor(i / 4)))
+            d += dx + dy
     return d
 
 
