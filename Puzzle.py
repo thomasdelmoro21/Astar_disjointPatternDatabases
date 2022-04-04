@@ -3,7 +3,6 @@
 '''
 
 from queue import PriorityQueue
-from copy import deepcopy
 import math
 import numpy as np
 from Heuristics import heuristic

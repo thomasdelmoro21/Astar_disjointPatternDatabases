@@ -28,18 +28,13 @@ def manhattanDistance(node):
     return d
 
 
-def linearConflicts(node):
+def linearConflicts(node): #FIX ME
     d = 0
-    for i in range(4):
-        for j in range(4):
-            if node[i, j] != 0:
-                x = node[i, j] % 4
-                y = math.floor(node[i, j] / 4)
-                d += abs(i - y) + abs(j - x)
-                if x == 0 & y != 0:
-                    d += 2
-                if x != 0 & y == 0:
-                    d += 2
+    for i in range(len(node)):
+        if node[i] != 0:
+            dx = ((node[i] % 4) - (i % 4))
+            dy = ((math.floor(node[i] / 4)) - (math.floor(i / 4)))
+            d += dx + dy
     return d
 
 
