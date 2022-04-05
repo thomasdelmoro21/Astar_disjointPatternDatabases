@@ -23,7 +23,7 @@ def manhattanDistance(node):
     for i in range(len(node)):
         if node[i] != 0:
             dx = ((node[i] % 4) - (i % 4))
-            dy = ((math.floor(node[i] / 4)) - (math.floor(i / 4)))
+            dy = ((node[i] // 4) - (i // 4))
             d += dx + dy
     return d
 
@@ -38,18 +38,23 @@ def linearConflicts(node): #FIX ME
     return d
 
 
-def nonAdditive():
-    start = np.array([0, 1, 1, 3], [1, 1, 1, 7], [1, 1, 1, 11], [12, 13, 14, 15])
+def nonAdditive(): #FIX ME
+    start = [0,1,1,3, 1,1,1,7, 1,1,1,11, 12,13,14,15]
     node = Puzzle.Node(start, 0)
     frontier = Queue()  # FIFO queue
     frontier.put(node)
-    reached = dict()
-    reached[tuple([tuple(e) for e in node.state])] = node
+    reached = []
+    reached.append(node)
     while frontier.qsize() > 0:
         node = frontier.get()
-        neighbors = Puzzle.expand(node)
+        neighbors = explore(node)
         for child in neighbors:
-            s = tuple([tuple(e) for e in child.state])
+            s = child.state
             if s not in reached:
-                reached[s] = child
+                reached.append(child)
                 frontier.put(child)
+    return False
+
+def explore(node): #FIX ME
+    neighbors = []
+    return neighbors

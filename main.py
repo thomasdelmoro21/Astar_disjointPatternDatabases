@@ -22,7 +22,6 @@ def main():
     pr.disable()
     print(result.state)
     pr.print_stats()
-
 '''
     start2 = np.array([[1,3,0,7],[4,5,2,11],[13,9,6,15],[8,12,14,10]])
     startTime = timer()
