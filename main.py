@@ -8,10 +8,10 @@ import numpy as np
 import Puzzle
 from queue import PriorityQueue
 
-N = 1
+N = 2
 
 def main():
-    start = [1,2,3,7, 4,5,10,6, 0,8,11,15, 12,9,13,14]
+    start = [1,2,3,7, 10,5,0,6, 4,8,11,15, 12,9,13,14]
     goal = [0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15]
 
     print(start)
