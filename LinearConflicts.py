@@ -29,8 +29,9 @@ def linearConflicts(node):
             if currentElement.dy == 0 and currentElement.value != 0:
                 for k in range(j+1, 4):
                     conflictElement = elements[i*4+k]
-                    if currentElement.value > conflictElement.value != 0:
+                    if conflictElement.dy == 0 and currentElement.value > conflictElement.value != 0:
                         conflicts += 1
+                        break
 
     #columnConflicts
     for j in range(0, 4):
@@ -39,8 +40,9 @@ def linearConflicts(node):
             if currentElement.dx == 0 and currentElement.value != 0:
                 for k in range(i+1, 4):
                     conflictElement = elements[k*4+j]
-                    if currentElement.value > conflictElement.value != 0:
+                    if conflictElement.dx == 0 and currentElement.value > conflictElement.value != 0:
                         conflicts += 1
+                        break
 
     d += conflicts * 2
     return d
