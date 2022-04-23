@@ -5,7 +5,9 @@
 from queue import PriorityQueue
 import math
 import numpy as np
-from Heuristics import heuristic
+from ManhattanDistance import manhattanDistance
+from LinearConflicts import linearConflicts
+from DisjointDatabases import disjointCost
 
 
 class Node:
@@ -20,7 +22,7 @@ class Node:
 def expand(node):
     neighbors = []
     index = node.state.index(0)
-    i = math.floor(index/4)
+    i = index // 4
     j = index % 4
 
     if i != 0:
@@ -42,6 +44,7 @@ def expand(node):
         newState = node.state[:]
         newState[index], newState[index + 1] = newState[index + 1], newState[index]
         neighbors.append(Node(newState, node.pathCost + 1))
+
     return neighbors
 
 
@@ -50,10 +53,24 @@ class Puzzle:
         self.start = start
         self.goal = goal
         self.currentNode = None
+        self.database1 = None
+        self.database2 = None
 
     def evaluationFunction(self, node, h):
-        f = node.pathCost + heuristic(node.state, h)
+        f = node.pathCost + self.heuristic(node.state, h)
         return f
+
+    def heuristic(self, node, h):
+        if h == 1:
+            result = manhattanDistance(node)
+
+        elif h == 2:
+            result = linearConflicts(node)
+
+        elif h == 3:
+            result = disjointCost(self.database1, self.database2, node)
+
+        return result
 
     def solve(self, h):
         node = Node(self.start, 0)

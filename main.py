@@ -5,10 +5,11 @@
 import cProfile
 from timeit import default_timer as timer
 import numpy as np
-import Puzzle
 from queue import PriorityQueue
+import Puzzle
+from DisjointDatabases import generateDatabases
 
-N = 2
+N = 3
 
 def main():
     start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
@@ -18,7 +19,16 @@ def main():
     puzzle = Puzzle.Puzzle(start, goal)
     pr = cProfile.Profile()
     pr.enable()
-    result = puzzle.solve(N)
+    if N == 1:
+        result = puzzle.solve(N)
+    elif N == 2:
+        result = puzzle.solve(N)
+    elif N == 3:
+        database1, database2 = generateDatabases()
+        puzzle.database1 = database1
+        puzzle.database2 = database2
+        result = puzzle.solve(N)
+
     pr.disable()
     print(result.state)
     pr.print_stats()
