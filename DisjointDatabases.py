@@ -6,18 +6,12 @@ from queue import Queue
 import Puzzle
 
 
-class Database:
-    def __init__(self, db1, db2):
-        self.database1 = db1
-        self.database2 = db2
-
-
 def generateDatabases():
     database1 = BFS([0, 1, 0, 0, 4, 5, 0, 0, 8, 9, 0, 0, 12, 13, 0, 0])
     print("Finito primo database")
     database2 = BFS([0, 0, 2, 3, 0, 0, 6, 7, 0, 0, 10, 11, 0, 0, 14, 15])
     print("Finito secondo database")
-    return Database(database1, database2)
+    return database1, database2
 
 
 def BFS(start):
