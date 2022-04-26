@@ -10,7 +10,7 @@ import Puzzle
 from DisjointDatabases import generateDatabases
 from ReflectedDatabases import generateReflected
 
-N = 3
+H = 3
 
 def main():
     start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
@@ -20,24 +20,23 @@ def main():
     puzzle = Puzzle.Puzzle(start, goal)
     pr = cProfile.Profile()
     pr.enable()
-    if N == 1:
-        result = puzzle.solve(N)
-    elif N == 2:
-        result = puzzle.solve(N)
-    elif N == 3:
+    if H == 1:
+        result = puzzle.solve(H)
+    elif H == 2:
+        result = puzzle.solve(H)
+    elif H == 3:
         db1, db2 = generateDatabases()
         puzzle.database1 = db1
         puzzle.database2 = db2
-        result = puzzle.solve(N)
-    elif N == 4:
+        result = puzzle.solve(H)
+    elif H == 4:
         db1, db2 = generateDatabases()
         rdb1, rdb2 = generateReflected()
         puzzle.database1 = db1
         puzzle.database2 = db2
         puzzle.reflected1 = rdb1
         puzzle.reflected2 = rdb2
-        result = puzzle.solve()
-
+        result = puzzle.solve(H)
 
     pr.disable()
     print(result.state)
