@@ -8,6 +8,7 @@ import numpy as np
 from ManhattanDistance import manhattanDistance
 from LinearConflicts import linearConflicts
 from DisjointDatabases import disjointCost
+from ReflectedDatabases import reflectedCost
 
 
 class Node:
@@ -55,6 +56,8 @@ class Puzzle:
         self.currentNode = None
         self.database1 = None
         self.database2 = None
+        self.reflected1 = None
+        self.reflected2 = None
 
     def evaluationFunction(self, node, h):
         f = node.pathCost + self.heuristic(node.state, h)
@@ -70,6 +73,10 @@ class Puzzle:
         elif h == 3:
             result = disjointCost(self.database1, self.database2, node)
 
+        elif h == 4:
+            disjoint = disjointCost(self.database1, self.database2)
+            reflected = reflectedCost(self.reflected1, self.reflected2)
+            return max(disjoint, reflected)
         return result
 
     def solve(self, h):
