@@ -74,27 +74,27 @@ def disjointCost(database1, database2, node):
 
     for i in range(len(node1)):
         value = node1[i]
-        if value != 1 or value != 4 or value != 5 or value != 8 or value != 9 or value != 12 or value != 13:
-            value = 0
+        if value != 1 and value != 4 and value != 5 and value != 8 and value != 9 and value != 12 and value != 13:
+            node1[i] = 0
     for i in range(len(node2)):
         value = node2[i]
-        if value != 2 or value != 3 or value != 6 or value != 7 or value != 10 or value != 11 or value != 14 or value != 15:
-            value = 0
+        if value != 2 and value != 3 and value != 6 and value != 7 and value != 10 and value != 11 and value != 14 and value != 15:
+            node2[i] = 0
 
     cost1 = 0
     node1 = tuple(node1)
-    s = 0
-    while cost1 == 0:
+    for s in database1.keys():
         if node1 == s:
             cost1 = database1[s]
-        s += 1
+        if cost1 != 0:
+            break
 
     cost2 = 0
     node2 = tuple(node2)
-    s = 0
-    while cost2 == 0:
+    for s in database2.keys():
         if node2 == s:
             cost2 = database2[s]
-        s += 1
+        if cost2 != 0:
+            break
 
     return cost1 + cost2
