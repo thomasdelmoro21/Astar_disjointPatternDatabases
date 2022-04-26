@@ -10,28 +10,43 @@ import Puzzle
 from DisjointDatabases import generateDatabases
 from ReflectedDatabases import generateReflected
 
-H = 3
+
+# N = 15 : 15puzzle
+# N = 8 : 8puzzle
+N = 8
+
+# H = 1 : Manhattan Distance
+# H = 2 : Linear Conflicts
+# H = 3 : Disjoint Pattern Databases
+# H = 4 : Disjoint Pattern Databases + Reflected
+H = 4
 
 def main():
-    start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
-    goal = [0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15]
+    #start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
+    start = [3,4,2, 6,5,8, 1,7,0]
+    if N == 15:
+        goal = [0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15]
+    elif N == 8:
+        goal = [0,1,2, 3,4,5, 6,7,8]
 
     print(start)
-    puzzle = Puzzle.Puzzle(start, goal)
+    puzzle = Puzzle.Puzzle(start, goal, N)
     pr = cProfile.Profile()
     pr.enable()
+    result = None
+
     if H == 1:
         result = puzzle.solve(H)
     elif H == 2:
         result = puzzle.solve(H)
     elif H == 3:
-        db1, db2 = generateDatabases()
+        db1, db2 = generateDatabases(N)
         puzzle.database1 = db1
         puzzle.database2 = db2
         result = puzzle.solve(H)
     elif H == 4:
-        db1, db2 = generateDatabases()
-        rdb1, rdb2 = generateReflected()
+        db1, db2 = generateDatabases(N)
+        rdb1, rdb2 = generateReflected(N)
         puzzle.database1 = db1
         puzzle.database2 = db2
         puzzle.reflected1 = rdb1
