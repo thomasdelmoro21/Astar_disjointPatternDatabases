@@ -33,7 +33,6 @@ def BFS(start, length):
     while frontier.qsize() > 0:
         node = frontier.get()
         neighbors = explore(node, length)
-        print(len(reached))
         for child in neighbors:
             s = tuple(child.state)
             if s not in reached.keys() or child.pathCost < reached[s]:
