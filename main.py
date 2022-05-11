@@ -100,7 +100,8 @@ def main():
     puzzle = Puzzle(start, goal, N)
     pr = cProfile.Profile()
     pr.enable()
-    result = None
+    reached = 0
+    allReached = 0
 
     if H == 1:
         reached, allReached = puzzle.solve(H)
