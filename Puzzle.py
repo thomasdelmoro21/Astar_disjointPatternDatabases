@@ -5,6 +5,7 @@
 from queue import PriorityQueue
 import math
 import numpy as np
+from timeit import default_timer as timer
 from ManhattanDistance import manhattanDistance
 from LinearConflicts import linearConflicts
 from DisjointDatabases import disjointCost
@@ -83,11 +84,13 @@ class Puzzle:
         return neighbors
 
     def solve(self, h):
+        start = timer()
         optimalCost = math.inf
         numReached = 0
         node = Node(self.start, 0)
         frontier = PriorityQueue()
-        frontier.put((self.evaluationFunction(node, h), node))
+        value = self.evaluationFunction(node, h)
+        frontier.put((value, node))
         reached = dict()
         reached[tuple(self.start)] = node
 
@@ -95,6 +98,8 @@ class Puzzle:
             f, node = frontier.get()
             if node.pathCost < optimalCost:
                 if node.state == self.goal:
+                    end = timer()
+                    time = end - start
                     optimalCost = node.pathCost
                     numReached = len(reached)
                     print(node.state)
@@ -106,4 +111,4 @@ class Puzzle:
                         reached[s] = child
                         frontier.put((self.evaluationFunction(child, h), child))
 
-        return numReached, len(reached)
+        return value, time, numReached, len(reached)

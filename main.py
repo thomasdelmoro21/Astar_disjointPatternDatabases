@@ -3,7 +3,6 @@
 '''
 
 import cProfile
-from timeit import default_timer as timer
 import numpy as np
 import random
 from queue import PriorityQueue
@@ -57,12 +56,6 @@ def shuffle(node):
 # N = 8 : 8puzzle
 N = 8
 
-# H = 1 : Manhattan Distance
-# H = 2 : Linear Conflicts
-# H = 3 : Disjoint Pattern Databases
-# H = 4 : Disjoint Pattern Databases + Reflected
-H = 1
-
 
 def main():
     # start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
@@ -77,7 +70,7 @@ def main():
     manhattanNodes = []
     conflictsNodes = []
     disjointNodes = []
-    reflectedNode = []
+    reflectedNodes = []
 
     manhattanTimes = []
     conflictsTimes = []
@@ -94,59 +87,57 @@ def main():
     elif N == 8:
         goal = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-    start = shuffle(goal)
 
-    print(start)
-    puzzle = Puzzle(start, goal, N)
     pr = cProfile.Profile()
     pr.enable()
-    reached = 0
-    allReached = 0
 
-    if H == 1:
-        reached, allReached = puzzle.solve(H)
-    elif H == 2:
-        reached, allReached = puzzle.solve(H)
-    elif H == 3:
-        db1, db2 = generateDatabases(N)
+    db1, db2 = generateDatabases(N)
+    rdb1, rdb2 = generateReflected(N)
+
+    startStates = []
+
+    for i in range(1000):
+        node = shuffle(goal)
+        startStates.append(node)
+
+    for start in startStates:
+        puzzle = Puzzle(start, goal, N)
+
+
+        H = 1 #ManhattanDistance
+        value, time, reached, allReached = puzzle.solve(H)
+        manhattanValue.append(value)
+        manhattanTimes.append(time)
+        manhattanNodes.append(reached)
+        manhattanAllNodes.append(allReached)
+
+        H = 2 #LinearConflicts
+        value, time, reached, allReached = puzzle.solve(H)
+        conflictsValue.append(value)
+        conflictsTimes.append(time)
+        conflictsNodes.append(reached)
+        conflictsAllNodes.append(allReached)
+
+        H = 3 #DisjointDatabases
         puzzle.database1 = db1
         puzzle.database2 = db2
-        reached, allReached = puzzle.solve(H)
-    elif H == 4:
-        db1, db2 = generateDatabases(N)
-        rdb1, rdb2 = generateReflected(N)
-        puzzle.database1 = db1
-        puzzle.database2 = db2
+        value, time, reached, allReached = puzzle.solve(H)
+        disjointValue.append(value)
+        disjointTimes.append(time)
+        disjointNodes.append(reached)
+        disjointAllNodes.append(allReached)
+
+        H = 4 #ReflectedDatabases
         puzzle.reflected1 = rdb1
         puzzle.reflected2 = rdb2
-        reached, allReached = puzzle.solve(H)
+        value, time, reached, allReached = puzzle.solve(H)
+        reflectedValue.append(value)
+        reflectedTimes.append(time)
+        reflectedNodes.append(reached)
+        reflectedAllNodes.append(allReached)
 
     pr.disable()
-    print(reached)
-    print(allReached)
     pr.print_stats()
-
-
-'''
-    start2 = np.array([[1,3,0,7],[4,5,2,11],[13,9,6,15],[8,12,14,10]])
-    startTime = timer()
-    startRepr = str(start)
-    start2Repr = str(start2)
-    stringhe = startRepr == start2Repr
-    endTime = timer()
-    print(endTime - startTime)
-
-    start2 = np.array([[1,3,0,7],[4,5,2,11],[13,9,6,15],[8,12,14,10]])
-    startTime = timer()
-    startTuple = tuple([tuple(e) for e in start])
-    start2Tuple = tuple([tuple(e) for e in start2])
-    tupless = startTuple == start2Tuple
-    endTime = timer()
-    print(endTime - startTime)
-'''
-# reached = {}
-# reached[start] = 5
-# print(reached[start])
 
 
 if __name__ == '__main__':
