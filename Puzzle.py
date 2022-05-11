@@ -83,6 +83,8 @@ class Puzzle:
         return neighbors
 
     def solve(self, h):
+        optimalCost = math.inf
+        numReached = 0
         node = Node(self.start, 0)
         frontier = PriorityQueue()
         frontier.put((self.evaluationFunction(node, h), node))
@@ -91,13 +93,17 @@ class Puzzle:
 
         while frontier.qsize() > 0:
             f, node = frontier.get()
-            if node.state == self.goal:
-                return node
-            print(len(reached))
-            neighbors = self.expand(node)
-            for child in neighbors:
-                s = tuple(child.state)
-                if s not in reached.keys() or child.pathCost < reached[s].pathCost:
-                    reached[s] = child
-                    frontier.put((self.evaluationFunction(child, h), child))
-        return False
+            if node.pathCost < optimalCost:
+                if node.state == self.goal:
+                    optimalCost = node.pathCost
+                    numReached = len(reached)
+                    print(node.state)
+                print(len(reached))
+                neighbors = self.expand(node)
+                for child in neighbors:
+                    s = tuple(child.state)
+                    if s not in reached.keys() or child.pathCost < reached[s].pathCost:
+                        reached[s] = child
+                        frontier.put((self.evaluationFunction(child, h), child))
+
+        return numReached, len(reached)
