@@ -5,6 +5,8 @@
 import cProfile
 import numpy as np
 import random
+import statistics
+import matplotlib.pyplot as plt
 from queue import PriorityQueue
 from Puzzle import Puzzle
 from DisjointDatabases import generateDatabases
@@ -46,7 +48,8 @@ def expand(node):
 
 
 def shuffle(node):
-    for i in range(random.randint(1, 100)):
+    for i in range(40):
+    #for i in range(random.randint(1, 50)):
         neighbors = expand(node)
         node = random.choice(neighbors)
     return node
@@ -88,15 +91,15 @@ def main():
         goal = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 
-    pr = cProfile.Profile()
-    pr.enable()
+    #pr = cProfile.Profile()
+    #pr.enable()
 
     db1, db2 = generateDatabases(N)
     rdb1, rdb2 = generateReflected(N)
 
     startStates = []
 
-    for i in range(1000):
+    for i in range(5):
         node = shuffle(goal)
         startStates.append(node)
 
@@ -136,8 +139,48 @@ def main():
         reflectedNodes.append(reached)
         reflectedAllNodes.append(allReached)
 
-    pr.disable()
-    pr.print_stats()
+    #pr.disable()
+    #pr.print_stats()
+
+    manhattanValueAvg = statistics.mean(manhattanValue)
+    manhattanTimesAvg = statistics.mean(manhattanTimes)
+    manhattanNodesAvg = statistics.mean(manhattanNodes)
+    manhattanAllNodesAvg = statistics.mean(manhattanAllNodes)
+
+    conflictsValueAvg = statistics.mean(conflictsValue)
+    conflictsTimesAvg = statistics.mean(conflictsTimes)
+    conflictsNodesAvg = statistics.mean(conflictsNodes)
+    conflictsAllNodesAvg = statistics.mean(conflictsAllNodes)
+
+    disjointValueAvg = statistics.mean(disjointValue)
+    disjointTimesAvg = statistics.mean(disjointTimes)
+    disjointNodesAvg = statistics.mean(disjointNodes)
+    disjointAllNodesAvg = statistics.mean(disjointAllNodes)
+
+    reflectedValueAvg = statistics.mean(reflectedValue)
+    reflectedTimesAvg = statistics.mean(reflectedTimes)
+    reflectedNodesAvg = statistics.mean(reflectedNodes)
+    reflectedAllNodesAvg = statistics.mean(reflectedAllNodes)
+
+    plt.bar('Manhattan Distance', manhattanNodesAvg, width=0.50, color='r', label='Manhattan Distance')
+    plt.bar('conflicts', conflictsNodesAvg, width=0.50, color='m', label='Linear Conflicts')
+    plt.bar('disjoint', disjointNodesAvg, width=0.50, color='b', label='Disjoint Databases')
+    plt.bar('reflected', reflectedNodesAvg, width=0.50, color='g', label='Disjoint + Reflected')
+    plt.xlabel('Funzione euristica')
+    plt.ylabel('Media dei nodi generati')
+    plt.title('Grafico 1')
+    plt.legend()
+    plt.show()
+
+    plt.bar('Manhattan Distance', manhattanTimesAvg, width=0.50, color='r', label='Manhattan Distance')
+    plt.bar('conflicts', conflictsTimesAvg, width=0.50, color='m', label='Linear Conflicts')
+    plt.bar('disjoint', disjointTimesAvg, width=0.50, color='b', label='Disjoint Databases')
+    plt.bar('reflected', reflectedTimesAvg, width=0.50, color='g', label='Disjoint + Reflected')
+    plt.xlabel('Funzione euristica')
+    plt.ylabel('Media dei tempi di risoluzione')
+    plt.title('Grafico 2')
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':

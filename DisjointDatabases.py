@@ -100,7 +100,6 @@ def disjointCost(database1, database2, node, length):
     for s in database1.keys():
         if node1 == s:
             cost1 = database1[s]
-        if cost1 != 0:
             break
 
     cost2 = 0
@@ -108,7 +107,6 @@ def disjointCost(database1, database2, node, length):
     for s in database2.keys():
         if node2 == s:
             cost2 = database2[s]
-        if cost2 != 0:
             break
 
     return cost1 + cost2

@@ -50,7 +50,6 @@ def reflectedCost(reflected1, reflected2, node, length):
     for s in reflected1.keys():
         if node1 == s:
             cost1 = reflected1[s]
-        if cost1 != 0:
             break
 
     cost2 = 0
@@ -58,7 +57,6 @@ def reflectedCost(reflected1, reflected2, node, length):
     for s in reflected2.keys():
         if node2 == s:
             cost2 = reflected2[s]
-        if cost2 != 0:
             break
 
     return cost1 + cost2
