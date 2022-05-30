@@ -7,6 +7,7 @@ import numpy as np
 import random
 import statistics
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 from queue import PriorityQueue
 from Puzzle import Puzzle
 from DisjointDatabases import generateDatabases
@@ -98,7 +99,7 @@ def main():
 
     startStates = []
 
-    for i in range(10):
+    for i in range(1):
         node = shuffle(goal)
         startStates.append(node)
 
@@ -198,6 +199,26 @@ def main():
     plt.legend()
     plt.show()
 
+    manhattanResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": manhattanValue,
+                        "Nodi generati": manhattanNodesAvg, "Nodi al secondo": manhattanNodesPerSecond,
+                        "Secondi": manhattanTimesAvg, "Tutte le soluzioni": manhattanAllNodesAvg}
+
+    conflictsResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": conflictsValue,
+                        "Nodi generati": conflictsNodesAvg, "Nodi al secondo": conflictsNodesPerSecond,
+                        "Secondi": conflictsTimesAvg, "Tutte le soluzioni": conflictsAllNodesAvg}
+
+    disjointResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": disjointValue,
+                        "Nodi generati": disjointNodesAvg, "Nodi al secondo": disjointNodesPerSecond,
+                        "Secondi": disjointTimesAvg, "Tutte le soluzioni": disjointAllNodesAvg}
+
+    reflectedResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": reflectedValue,
+                        "Nodi generati": reflectedNodesAvg, "Nodi al secondo": reflectedNodesPerSecond,
+                        "Secondi": reflectedTimesAvg, "Tutte le soluzioni": reflectedAllNodesAvg}
+
+    print(manhattanResults)
+    print(conflictsResults)
+    print(disjointResults)
+    print(reflectedResults)
 
 if __name__ == '__main__':
     main()
