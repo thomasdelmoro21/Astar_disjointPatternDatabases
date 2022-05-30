@@ -48,8 +48,7 @@ def expand(node):
 
 
 def shuffle(node):
-    for i in range(40):
-    #for i in range(random.randint(1, 50)):
+    for i in range(random.randint(10, 100)):
         neighbors = expand(node)
         node = random.choice(neighbors)
     return node
@@ -91,15 +90,15 @@ def main():
         goal = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 
-    #pr = cProfile.Profile()
-    #pr.enable()
+    pr = cProfile.Profile()
+    pr.enable()
 
     db1, db2 = generateDatabases(N)
     rdb1, rdb2 = generateReflected(N)
 
     startStates = []
 
-    for i in range(5):
+    for i in range(10):
         node = shuffle(goal)
         startStates.append(node)
 
@@ -139,8 +138,10 @@ def main():
         reflectedNodes.append(reached)
         reflectedAllNodes.append(allReached)
 
-    #pr.disable()
-    #pr.print_stats()
+        print(len(manhattanValue))
+
+    pr.disable()
+    pr.print_stats()
 
     manhattanValueAvg = statistics.mean(manhattanValue)
     manhattanTimesAvg = statistics.mean(manhattanTimes)
@@ -175,7 +176,6 @@ def main():
     plt.ylabel('Media dei nodi generati')
     plt.title('Grafico 1')
     plt.legend()
-    plt.show()
 
     plt.figure(2)
     plt.bar('Manhattan Distance', manhattanTimesAvg, width=0.50, color='r', label='Manhattan Distance')

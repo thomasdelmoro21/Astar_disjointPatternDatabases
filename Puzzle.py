@@ -103,7 +103,6 @@ class Puzzle:
                     optimalCost = node.pathCost
                     numReached = len(reached)
                     print(node.state)
-                print(len(reached))
                 neighbors = self.expand(node)
                 for child in neighbors:
                     s = tuple(child.state)
