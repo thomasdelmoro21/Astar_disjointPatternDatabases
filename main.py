@@ -146,22 +146,27 @@ def main():
     manhattanTimesAvg = statistics.mean(manhattanTimes)
     manhattanNodesAvg = statistics.mean(manhattanNodes)
     manhattanAllNodesAvg = statistics.mean(manhattanAllNodes)
+    manhattanNodesPerSecond = manhattanNodesAvg / manhattanTimesAvg
 
     conflictsValueAvg = statistics.mean(conflictsValue)
     conflictsTimesAvg = statistics.mean(conflictsTimes)
     conflictsNodesAvg = statistics.mean(conflictsNodes)
     conflictsAllNodesAvg = statistics.mean(conflictsAllNodes)
+    conflictsNodesPerSecond = conflictsNodesAvg / conflictsTimesAvg
 
     disjointValueAvg = statistics.mean(disjointValue)
     disjointTimesAvg = statistics.mean(disjointTimes)
     disjointNodesAvg = statistics.mean(disjointNodes)
     disjointAllNodesAvg = statistics.mean(disjointAllNodes)
+    disjointNodesPerSecond = disjointNodesAvg / disjointTimesAvg
 
     reflectedValueAvg = statistics.mean(reflectedValue)
     reflectedTimesAvg = statistics.mean(reflectedTimes)
     reflectedNodesAvg = statistics.mean(reflectedNodes)
     reflectedAllNodesAvg = statistics.mean(reflectedAllNodes)
+    reflectedNodesPerSecond = reflectedNodesAvg / reflectedTimesAvg
 
+    plt.figure(1)
     plt.bar('Manhattan Distance', manhattanNodesAvg, width=0.50, color='r', label='Manhattan Distance')
     plt.bar('conflicts', conflictsNodesAvg, width=0.50, color='m', label='Linear Conflicts')
     plt.bar('disjoint', disjointNodesAvg, width=0.50, color='b', label='Disjoint Databases')
@@ -172,6 +177,7 @@ def main():
     plt.legend()
     plt.show()
 
+    plt.figure(2)
     plt.bar('Manhattan Distance', manhattanTimesAvg, width=0.50, color='r', label='Manhattan Distance')
     plt.bar('conflicts', conflictsTimesAvg, width=0.50, color='m', label='Linear Conflicts')
     plt.bar('disjoint', disjointTimesAvg, width=0.50, color='b', label='Disjoint Databases')
@@ -179,6 +185,16 @@ def main():
     plt.xlabel('Funzione euristica')
     plt.ylabel('Media dei tempi di risoluzione')
     plt.title('Grafico 2')
+    plt.legend()
+
+    plt.figure(3)
+    plt.bar('Manhattan Distance', manhattanNodesPerSecond, width=0.50, color='r', label='Manhattan Distance')
+    plt.bar('conflicts', conflictsNodesPerSecond, width=0.50, color='m', label='Linear Conflicts')
+    plt.bar('disjoint', disjointNodesPerSecond, width=0.50, color='b', label='Disjoint Databases')
+    plt.bar('reflected', reflectedNodesPerSecond, width=0.50, color='g', label='Disjoint + Reflected')
+    plt.xlabel('Funzione euristica')
+    plt.ylabel('Nodi generati al secondo')
+    plt.title('Grafico 3')
     plt.legend()
     plt.show()
 
