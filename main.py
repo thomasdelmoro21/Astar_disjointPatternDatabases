@@ -50,7 +50,7 @@ def expand(node):
 
 
 def shuffle(node):
-    for i in range(random.randint(10, 100)):
+    for i in range(random.randint(10, 1000)):
         neighbors = expand(node)
         node = random.choice(neighbors)
     return node
@@ -105,7 +105,7 @@ def main():
 
     startStates = []
 
-    for i in range(50):
+    for i in range(5):
         node = shuffle(goal)
         startStates.append(node)
 
@@ -227,15 +227,15 @@ def main():
                         "Nodi generati": manhattanNodesAvg, "Nodi al secondo": manhattanNodesPerSecond,
                         "Secondi": manhattanTimesAvg, "Tutte le soluzioni": manhattanAllNodesAvg}
 
-    conflictsResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": conflictsValueAvg,
+    conflictsResults = {"Funzione euristica": "Linear Conflicts", "Valore euristica": conflictsValueAvg,
                         "Nodi generati": conflictsNodesAvg, "Nodi al secondo": conflictsNodesPerSecond,
                         "Secondi": conflictsTimesAvg, "Tutte le soluzioni": conflictsAllNodesAvg}
 
-    disjointResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": disjointValueAvg,
+    disjointResults = {"Funzione euristica": "Disjoint Databases", "Valore euristica": disjointValueAvg,
                         "Nodi generati": disjointNodesAvg, "Nodi al secondo": disjointNodesPerSecond,
                         "Secondi": disjointTimesAvg, "Tutte le soluzioni": disjointAllNodesAvg}
 
-    reflectedResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": reflectedValueAvg,
+    reflectedResults = {"Funzione euristica": "Reflected Databases", "Valore euristica": reflectedValueAvg,
                         "Nodi generati": reflectedNodesAvg, "Nodi al secondo": reflectedNodesPerSecond,
                         "Secondi": reflectedTimesAvg, "Tutte le soluzioni": reflectedAllNodesAvg}
 

@@ -101,7 +101,7 @@ class Puzzle:
 
         while frontier.qsize() > 0:
             f, node = frontier.get()
-            if node.pathCost < optimalCost:
+            if self.evaluationFunction(node, h) < optimalCost:
                 if node.state == self.goal:
                     end = timer()
                     time = end - start
