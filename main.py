@@ -49,7 +49,8 @@ def expand(node):
 
 
 def shuffle(node):
-    for i in range(random.randint(10, 100)):
+    for i in range(400):
+    #for i in range(random.randint(10, 100)):
         neighbors = expand(node)
         node = random.choice(neighbors)
     return node
@@ -57,12 +58,12 @@ def shuffle(node):
 
 # N = 15 : 15puzzle
 # N = 8 : 8puzzle
-N = 8
+N = 15
 
 
 def main():
     # start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
-    # start = [3,0,4, 6,8,5, 1,7,2]
+    start = [3,0,4, 6,8,5, 1,7,2]
     goal = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     manhattanValue = []
@@ -199,19 +200,19 @@ def main():
     plt.legend()
     plt.show()
 
-    manhattanResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": manhattanValue,
+    manhattanResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": manhattanValueAvg,
                         "Nodi generati": manhattanNodesAvg, "Nodi al secondo": manhattanNodesPerSecond,
                         "Secondi": manhattanTimesAvg, "Tutte le soluzioni": manhattanAllNodesAvg}
 
-    conflictsResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": conflictsValue,
+    conflictsResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": conflictsValueAvg,
                         "Nodi generati": conflictsNodesAvg, "Nodi al secondo": conflictsNodesPerSecond,
                         "Secondi": conflictsTimesAvg, "Tutte le soluzioni": conflictsAllNodesAvg}
 
-    disjointResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": disjointValue,
+    disjointResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": disjointValueAvg,
                         "Nodi generati": disjointNodesAvg, "Nodi al secondo": disjointNodesPerSecond,
                         "Secondi": disjointTimesAvg, "Tutte le soluzioni": disjointAllNodesAvg}
 
-    reflectedResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": reflectedValue,
+    reflectedResults = {"Funzione euristica": "Manhattan Distance", "Valore euristica": reflectedValueAvg,
                         "Nodi generati": reflectedNodesAvg, "Nodi al secondo": reflectedNodesPerSecond,
                         "Secondi": reflectedTimesAvg, "Tutte le soluzioni": reflectedAllNodesAvg}
 
