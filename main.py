@@ -50,7 +50,7 @@ def expand(node):
 
 
 def shuffle(node):
-    for i in range(random.randint(10, 1000)):
+    for i in range(random.randint(100, 10000)):
         neighbors = expand(node)
         node = random.choice(neighbors)
     return node
@@ -105,7 +105,7 @@ def main():
 
     startStates = []
 
-    for i in range(5):
+    for i in range(1000):
         node = shuffle(goal)
         startStates.append(node)
 
