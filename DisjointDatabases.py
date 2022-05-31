@@ -6,7 +6,7 @@ from queue import Queue
 import Puzzle
 
 
-def generateDatabases(n):
+def generateDisjointDatabases(n):
     if n == 15:
         length = 4
         database1 = BFS([0, 1, 0, 0, 4, 5, 0, 0, 8, 9, 0, 0, 12, 13, 0, 0], length)

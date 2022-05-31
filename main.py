@@ -10,8 +10,9 @@ import matplotlib.pyplot as plt
 from tabulate import tabulate
 from queue import PriorityQueue
 from Puzzle import Puzzle
-from DisjointDatabases import generateDatabases
-from ReflectedDatabases import generateReflected
+from NonAdditive import generateNonAdditiveDatabase
+from DisjointDatabases import generateDisjointDatabases
+from ReflectedDatabases import generateReflectedDatabases
 
 
 def expand(node):
@@ -49,8 +50,7 @@ def expand(node):
 
 
 def shuffle(node):
-    for i in range(400):
-    #for i in range(random.randint(10, 100)):
+    for i in range(random.randint(10, 100)):
         neighbors = expand(node)
         node = random.choice(neighbors)
     return node
@@ -58,49 +58,54 @@ def shuffle(node):
 
 # N = 15 : 15puzzle
 # N = 8 : 8puzzle
-N = 15
+N = 8
 
 
 def main():
     # start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
     start = [3,0,4, 6,8,5, 1,7,2]
+    start = shuffle(start)
     goal = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     manhattanValue = []
     conflictsValue = []
     disjointValue = []
     reflectedValue = []
+    nonAdditiveValue = []
 
     manhattanNodes = []
     conflictsNodes = []
     disjointNodes = []
     reflectedNodes = []
+    nonAdditiveNodes = []
 
     manhattanTimes = []
     conflictsTimes = []
     disjointTimes = []
     reflectedTimes = []
+    nonAdditiveTimes = []
 
     manhattanAllNodes = []
     conflictsAllNodes = []
     disjointAllNodes = []
     reflectedAllNodes = []
+    nonAdditiveAllNodes = []
 
     if N == 15:
         goal = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     elif N == 8:
         goal = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
+    #pr = cProfile.Profile()
+    #pr.enable()
 
-    pr = cProfile.Profile()
-    pr.enable()
-
-    db1, db2 = generateDatabases(N)
-    rdb1, rdb2 = generateReflected(N)
+    ndb = generateNonAdditiveDatabase(N)
+    db1, db2 = generateDisjointDatabases(N)
+    rdb1, rdb2 = generateReflectedDatabases(N)
 
     startStates = []
 
-    for i in range(1):
+    for i in range(10):
         node = shuffle(goal)
         startStates.append(node)
 
@@ -140,10 +145,19 @@ def main():
         reflectedNodes.append(reached)
         reflectedAllNodes.append(allReached)
 
+        H = 5 #NonAdditiveDatabases
+        puzzle.nonAdditiveDatabase = ndb
+        value, time, reached, allReached = puzzle.solve(H)
+        nonAdditiveValue.append(value)
+        nonAdditiveTimes.append(time)
+        nonAdditiveNodes.append(reached)
+        nonAdditiveAllNodes.append(allReached)
+        
+
         print(len(manhattanValue))
 
-    pr.disable()
-    pr.print_stats()
+    #pr.disable()
+    #pr.print_stats()
 
     manhattanValueAvg = statistics.mean(manhattanValue)
     manhattanTimesAvg = statistics.mean(manhattanTimes)
@@ -169,31 +183,40 @@ def main():
     reflectedAllNodesAvg = statistics.mean(reflectedAllNodes)
     reflectedNodesPerSecond = reflectedNodesAvg / reflectedTimesAvg
 
+    nonAdditiveValueAvg = statistics.mean(nonAdditiveValue)
+    nonAdditiveTimesAvg = statistics.mean(nonAdditiveTimes)
+    nonAdditiveNodesAvg = statistics.mean(nonAdditiveNodes)
+    nonAdditiveAllNodesAvg = statistics.mean(nonAdditiveAllNodes)
+    nonAdditiveNodesPerSecond = nonAdditiveNodesAvg / nonAdditiveTimesAvg
+
     plt.figure(1)
-    plt.bar('Manhattan Distance', manhattanNodesAvg, width=0.50, color='r', label='Manhattan Distance')
-    plt.bar('conflicts', conflictsNodesAvg, width=0.50, color='m', label='Linear Conflicts')
-    plt.bar('disjoint', disjointNodesAvg, width=0.50, color='b', label='Disjoint Databases')
-    plt.bar('reflected', reflectedNodesAvg, width=0.50, color='g', label='Disjoint + Reflected')
+    plt.bar('Manhattan', manhattanNodesAvg, width=0.50, color='c', label='Manhattan Distance')
+    plt.bar('Conflicts', conflictsNodesAvg, width=0.50, color='m', label='Linear Conflicts')
+    plt.bar('Disjoint', disjointNodesAvg, width=0.50, color='r', label='Disjoint Databases')
+    plt.bar('Reflected', reflectedNodesAvg, width=0.50, color='b', label='Disjoint + Reflected')
+    plt.bar('Non Additive', nonAdditiveNodesAvg, width=0.50, color='g', label='Non Additive')
     plt.xlabel('Funzione euristica')
     plt.ylabel('Media dei nodi generati')
     plt.title('Grafico 1')
     plt.legend()
 
     plt.figure(2)
-    plt.bar('Manhattan Distance', manhattanTimesAvg, width=0.50, color='r', label='Manhattan Distance')
-    plt.bar('conflicts', conflictsTimesAvg, width=0.50, color='m', label='Linear Conflicts')
-    plt.bar('disjoint', disjointTimesAvg, width=0.50, color='b', label='Disjoint Databases')
-    plt.bar('reflected', reflectedTimesAvg, width=0.50, color='g', label='Disjoint + Reflected')
+    plt.bar('Manhattan Distance', manhattanTimesAvg, width=0.50, color='c', label='Manhattan Distance')
+    plt.bar('Conflicts', conflictsTimesAvg, width=0.50, color='m', label='Linear Conflicts')
+    plt.bar('Disjoint', disjointTimesAvg, width=0.50, color='r', label='Disjoint Databases')
+    plt.bar('Reflected', reflectedTimesAvg, width=0.50, color='b', label='Disjoint + Reflected')
+    plt.bar('Non Additive', nonAdditiveNodesAvg, width=0.50, color='g', label='Non Additive')
     plt.xlabel('Funzione euristica')
     plt.ylabel('Media dei tempi di risoluzione')
     plt.title('Grafico 2')
     plt.legend()
 
     plt.figure(3)
-    plt.bar('Manhattan Distance', manhattanNodesPerSecond, width=0.50, color='r', label='Manhattan Distance')
-    plt.bar('conflicts', conflictsNodesPerSecond, width=0.50, color='m', label='Linear Conflicts')
-    plt.bar('disjoint', disjointNodesPerSecond, width=0.50, color='b', label='Disjoint Databases')
-    plt.bar('reflected', reflectedNodesPerSecond, width=0.50, color='g', label='Disjoint + Reflected')
+    plt.bar('Manhattan Distance', manhattanNodesPerSecond, width=0.50, color='c', label='Manhattan Distance')
+    plt.bar('Conflicts', conflictsNodesPerSecond, width=0.50, color='m', label='Linear Conflicts')
+    plt.bar('Disjoint', disjointNodesPerSecond, width=0.50, color='r', label='Disjoint Databases')
+    plt.bar('Reflected', reflectedNodesPerSecond, width=0.50, color='b', label='Disjoint + Reflected')
+    plt.bar('Non Additive', reflectedNodesAvg, width=0.50, color='g', label='Non Additive')
     plt.xlabel('Funzione euristica')
     plt.ylabel('Nodi generati al secondo')
     plt.title('Grafico 3')
@@ -216,10 +239,15 @@ def main():
                         "Nodi generati": reflectedNodesAvg, "Nodi al secondo": reflectedNodesPerSecond,
                         "Secondi": reflectedTimesAvg, "Tutte le soluzioni": reflectedAllNodesAvg}
 
+    nonAdditiveResults = {"Funzione euristica": "Non Additive", "Valore euristica": nonAdditiveValueAvg,
+                        "Nodi generati": nonAdditiveNodesAvg, "Nodi al secondo": nonAdditiveNodesPerSecond,
+                        "Secondi": nonAdditiveTimesAvg, "Tutte le soluzioni": nonAdditiveAllNodesAvg}
+
     print(manhattanResults)
     print(conflictsResults)
     print(disjointResults)
     print(reflectedResults)
+    print(nonAdditiveResults)
 
 if __name__ == '__main__':
     main()

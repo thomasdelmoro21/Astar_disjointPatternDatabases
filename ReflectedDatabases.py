@@ -4,7 +4,7 @@
 
 from DisjointDatabases import BFS
 
-def generateReflected(n):
+def generateReflectedDatabases(n):
     if n == 15:
         length = 4
         reflected1 = BFS([0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0], length)

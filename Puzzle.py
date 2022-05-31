@@ -8,6 +8,7 @@ import numpy as np
 from timeit import default_timer as timer
 from ManhattanDistance import manhattanDistance
 from LinearConflicts import linearConflicts
+from NonAdditive import nonAdditiveCost
 from DisjointDatabases import disjointCost
 from ReflectedDatabases import reflectedCost
 
@@ -30,6 +31,7 @@ class Puzzle:
         elif n == 8:
             self.length = 3
         self.currentNode = None
+        self.nonAdditiveDatabase = None
         self.database1 = None
         self.database2 = None
         self.reflected1 = None
@@ -53,6 +55,9 @@ class Puzzle:
             disjoint = disjointCost(self.database1, self.database2, node, self.length)
             reflected = reflectedCost(self.reflected1, self.reflected2, node, self.length)
             result = max(disjoint, reflected)
+
+        elif h == 5:
+            result = nonAdditiveCost(self.nonAdditiveDatabase, node, self.length)
         return result
 
     def expand(self, node):
@@ -95,6 +100,7 @@ class Puzzle:
         reached[tuple(self.start)] = node
 
         while frontier.qsize() > 0:
+            print(len(reached))
             f, node = frontier.get()
             if node.pathCost < optimalCost:
                 if node.state == self.goal:
