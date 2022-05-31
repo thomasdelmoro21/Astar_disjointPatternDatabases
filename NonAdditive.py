@@ -27,7 +27,6 @@ def BFS(start, length):
     reached = dict()
     reached[tuple(start)] = 0
     while frontier.qsize() > 0:
-        print(len(reached))
         node = frontier.get()
         neighbors = explore(node, length)
         for child in neighbors:

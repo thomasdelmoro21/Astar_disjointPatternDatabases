@@ -100,7 +100,6 @@ class Puzzle:
         reached[tuple(self.start)] = node
 
         while frontier.qsize() > 0:
-            print(len(reached))
             f, node = frontier.get()
             if node.pathCost < optimalCost:
                 if node.state == self.goal:

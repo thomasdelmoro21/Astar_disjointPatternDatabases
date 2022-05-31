@@ -105,7 +105,7 @@ def main():
 
     startStates = []
 
-    for i in range(10):
+    for i in range(50):
         node = shuffle(goal)
         startStates.append(node)
 
@@ -201,22 +201,22 @@ def main():
     plt.legend()
 
     plt.figure(2)
-    plt.bar('Manhattan Distance', manhattanTimesAvg, width=0.50, color='c', label='Manhattan Distance')
+    plt.bar('Manhattan', manhattanTimesAvg, width=0.50, color='c', label='Manhattan Distance')
     plt.bar('Conflicts', conflictsTimesAvg, width=0.50, color='m', label='Linear Conflicts')
     plt.bar('Disjoint', disjointTimesAvg, width=0.50, color='r', label='Disjoint Databases')
     plt.bar('Reflected', reflectedTimesAvg, width=0.50, color='b', label='Disjoint + Reflected')
-    plt.bar('Non Additive', nonAdditiveNodesAvg, width=0.50, color='g', label='Non Additive')
+    plt.bar('Non Additive', nonAdditiveTimesAvg, width=0.50, color='g', label='Non Additive')
     plt.xlabel('Funzione euristica')
     plt.ylabel('Media dei tempi di risoluzione')
     plt.title('Grafico 2')
     plt.legend()
 
     plt.figure(3)
-    plt.bar('Manhattan Distance', manhattanNodesPerSecond, width=0.50, color='c', label='Manhattan Distance')
+    plt.bar('Manhattan', manhattanNodesPerSecond, width=0.50, color='c', label='Manhattan Distance')
     plt.bar('Conflicts', conflictsNodesPerSecond, width=0.50, color='m', label='Linear Conflicts')
     plt.bar('Disjoint', disjointNodesPerSecond, width=0.50, color='r', label='Disjoint Databases')
     plt.bar('Reflected', reflectedNodesPerSecond, width=0.50, color='b', label='Disjoint + Reflected')
-    plt.bar('Non Additive', reflectedNodesAvg, width=0.50, color='g', label='Non Additive')
+    plt.bar('Non Additive', reflectedNodesPerSecond, width=0.50, color='g', label='Non Additive')
     plt.xlabel('Funzione euristica')
     plt.ylabel('Nodi generati al secondo')
     plt.title('Grafico 3')
