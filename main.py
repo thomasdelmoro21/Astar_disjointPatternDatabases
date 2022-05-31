@@ -59,6 +59,7 @@ def shuffle(node):
 # N = 15 : 15puzzle
 # N = 8 : 8puzzle
 N = 8
+numOfTests = 1000
 
 
 def main():
@@ -105,7 +106,7 @@ def main():
 
     startStates = []
 
-    for i in range(1000):
+    for i in range(numOfTests):
         node = shuffle(goal)
         startStates.append(node)
 
