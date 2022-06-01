@@ -59,14 +59,14 @@ def shuffle(node):
 # N = 15 : 15puzzle
 # N = 8 : 8puzzle
 N = 8
-numOfTests = 1000
+numOfTests = 5
 
 
 def main():
     # start = [1,2,3,7, 8,4,5,6, 12,0,10,15, 9,11,13,14]
-    start = [3,0,4, 6,8,5, 1,7,2]
-    start = shuffle(start)
-    goal = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    # start = [3,0,4, 6,8,5, 1,7,2]
+    # start = shuffle(start)
+    # goal = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     manhattanValue = []
     conflictsValue = []
