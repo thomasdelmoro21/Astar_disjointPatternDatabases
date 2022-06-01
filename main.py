@@ -59,7 +59,7 @@ def shuffle(node):
 # N = 15 : 15puzzle
 # N = 8 : 8puzzle
 N = 8
-numOfTests = 5
+numOfTests = 1000
 
 
 def main():
